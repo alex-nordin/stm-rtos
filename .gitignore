@@ -1,0 +1,6 @@
+build/
+
+.devenv*
+.direnv*
+.devenv/
+.direnv/
