@@ -1,0 +1,6 @@
+default:
+    @just --list
+
+flash:
+    stflash --reset write rtos_goof.bin 0x08000000
+
