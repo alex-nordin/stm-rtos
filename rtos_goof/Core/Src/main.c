@@ -27,11 +27,41 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+// #define LED6_PIN GPIO_PIN_15
+// #define LED6_GPIO_PORT GPIOE
+// #define LED6_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED8_PIN GPIO_PIN_14
+// #define LED8_GPIO_PORT GPIOE
+// #define LED8_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED10_PIN GPIO_PIN_13
+// #define LED10_GPIO_PORT GPIOE
+// #define LED10_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED9_PIN GPIO_PIN_12
+// #define LED9_GPIO_PORT GPIOE
+// #define LED9_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED7_PIN GPIO_PIN_11
+// #define LED7_GPIO_PORT GPIOE
+// #define LED7_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED5_PIN GPIO_PIN_10
+// #define LED5_GPIO_PORT GPIOE
+// #define LED5_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED3_PIN GPIO_PIN_9
+// #define LED3_GPIO_PORT GPIOE
+// #define LED3_GPIO_CLK RCC_AHBPeriph_GPIOE
+
+// #define LED4_PIN GPIO_PIN_8
+// #define LED4_GPIO_PORT GPIOE
+// #define LED4_GPIO_CLK RCC_AHBPeriph_GPIOE
 
 /* USER CODE END PD */
 
@@ -54,6 +84,13 @@ const osThreadAttr_t defaultTask_attributes = {
     .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityNormal,
 };
+
+osThreadId_t secondaryTaskHandle;
+const osThreadAttr_t secondaryTask_attributes = {
+    .name = "secondaryTask",
+    .stack_size = 128 * 4,
+    .priority = (osPriority_t)osPriorityBelowNormal,
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -65,6 +102,7 @@ static void MX_I2C1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USB_PCD_Init(void);
 void StartDefaultTask(void *argument);
+void StartSecondaryTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -134,6 +172,9 @@ int main(void) {
     /* creation of defaultTask */
     defaultTaskHandle =
         osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+    secondaryTaskHandle =
+        osThreadNew(StartSecondaryTask, NULL, &defaultTask_attributes);
 
     /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
@@ -377,7 +418,20 @@ void StartDefaultTask(void *argument) {
     /* USER CODE BEGIN 5 */
     /* Infinite loop */
     for (;;) {
-        osDelay(1);
+        // HAL_GPIO_WritePin(, , )
+        HAL_GPIO_TogglePin(GPIOE, LD10_Pin);
+        osDelay(100);
+    }
+    /* USER CODE END 5 */
+}
+
+void StartSecondaryTask(void *argument) {
+    /* USER CODE BEGIN 5 */
+    /* Infinite loop */
+    for (;;) {
+        // HAL_GPIO_WritePin(, , )
+        HAL_GPIO_TogglePin(GPIOE, LD3_Pin);
+        osDelay(200);
     }
     /* USER CODE END 5 */
 }
