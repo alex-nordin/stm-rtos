@@ -2,5 +2,5 @@ default:
     @just --list
 
 flash:
-    st-flash --reset write rtos_goof.bin 0x08000000
+    st-flash --reset write ./build/rtos_goof.bin 0x08000000
 
